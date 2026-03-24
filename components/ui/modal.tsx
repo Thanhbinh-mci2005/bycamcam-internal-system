@@ -32,12 +32,12 @@ export function Modal({ open, onClose, title, children, size = 'md' }: ModalProp
       />
       <div
         className={cn(
-          'relative z-10 bg-white rounded-xl shadow-xl border border-stone-200 w-full mx-4 max-h-[90vh] flex flex-col',
+          'relative z-10 bg-white rounded-xl shadow-xl border border-stone-200 w-full mx-4 flex flex-col',
           {
-            'max-w-sm': size === 'sm',
-            'max-w-lg': size === 'md',
-            'max-w-2xl': size === 'lg',
-            'max-w-4xl': size === 'xl',
+            'max-w-sm max-h-[90vh]': size === 'sm',
+            'max-w-lg max-h-[90vh]': size === 'md',
+            'max-w-2xl max-h-[90vh]': size === 'lg',
+            'max-w-4xl h-[88vh]': size === 'xl',
           }
         )}
       >
