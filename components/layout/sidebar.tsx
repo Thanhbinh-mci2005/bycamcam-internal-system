@@ -55,7 +55,8 @@ const navItems = [
 ]
 
 export function Sidebar() {
-  const pathname = usePathname()
+  const rawPathname = usePathname()
+  const pathname = rawPathname ?? ''
   const [collapsed, setCollapsed] = useState(false)
 
   return (
