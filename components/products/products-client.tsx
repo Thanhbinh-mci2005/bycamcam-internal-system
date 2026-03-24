@@ -69,20 +69,42 @@ export function ProductsClient({ initialProducts }: Props) {
   }), [products])
 
   function handleCreate(data: Partial<Product>) {
+    const id = `new-${Date.now()}`
     const newProduct: Product = {
-      id: `new-${Date.now()}`,
+      id,
       sku: data.sku!,
       name: data.name!,
-      category: data.category!,
-      collection: data.collection ?? 'SS2024',
+      category: data.category ?? 'tops',
+      collection: data.collection ?? 'General',
       status: data.status ?? 'active',
-      cost: data.cost!,
-      price: data.price!,
-      margin: data.price! > 0 ? ((data.price! - data.cost!) / data.price!) * 100 : 0,
-      notes: data.notes,
+      cost: 0,
+      price: data.price ?? 0,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
-      inventory: { id: `inv-${Date.now()}`, product_id: `new-${Date.now()}`, quantity: 0, low_stock_threshold: 20, updated_at: new Date().toISOString() }
+      inventory: { id: `inv-${id}`, product_id: id, quantity: 0, low_stock_threshold: 20, updated_at: new Date().toISOString() },
+      // extended fields
+      shopee_id: data.shopee_id,
+      tiktok_id: data.tiktok_id,
+      warehouse_name: data.warehouse_name,
+      delivery_info: data.delivery_info,
+      product_type: data.product_type,
+      product_line: data.product_line,
+      material: data.material,
+      sku_variants: data.sku_variants,
+      image_embed: data.image_embed,
+      team: data.team,
+      owner: data.owner,
+      production_owner: data.production_owner,
+      designer: data.designer,
+      highlights: data.highlights,
+      order_cycle_days: data.order_cycle_days,
+      production_days: data.production_days,
+      lookbook_ref: data.lookbook_ref,
+      image_2d_ref: data.image_2d_ref,
+      shopee_url: data.shopee_url,
+      tiktok_url: data.tiktok_url,
+      colors: data.colors,
+      image_url: data.image_url,
     }
     setProducts(prev => [newProduct, ...prev])
     setModalOpen(false)
@@ -92,7 +114,7 @@ export function ProductsClient({ initialProducts }: Props) {
     if (!editProduct) return
     setProducts(prev => prev.map(p =>
       p.id === editProduct.id
-        ? { ...p, ...data, margin: data.price! > 0 ? ((data.price! - data.cost!) / data.price!) * 100 : 0, updated_at: new Date().toISOString() }
+        ? { ...p, ...data, updated_at: new Date().toISOString() }
         : p
     ))
     setEditProduct(null)
@@ -171,12 +193,12 @@ export function ProductsClient({ initialProducts }: Props) {
       </div>
 
       {/* Create Modal */}
-      <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Add New Product" size="lg">
+      <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Thêm sản phẩm mới" size="xl">
         <ProductForm onSubmit={handleCreate} onCancel={() => setModalOpen(false)} />
       </Modal>
 
       {/* Edit Modal */}
-      <Modal open={!!editProduct} onClose={() => setEditProduct(null)} title="Edit Product" size="lg">
+      <Modal open={!!editProduct} onClose={() => setEditProduct(null)} title="Chỉnh sửa sản phẩm" size="xl">
         {editProduct && (
           <ProductForm initial={editProduct} onSubmit={handleEdit} onCancel={() => setEditProduct(null)} />
         )}
