@@ -1,6 +1,7 @@
 'use client'
 
 import { Topbar } from '@/components/layout/topbar'
+import { ProductDetail } from '@/components/products/product-detail'
 import { ProductForm } from '@/components/products/product-form'
 import { ProductTable } from '@/components/products/product-table'
 import { Badge } from '@/components/ui/badge'
@@ -45,6 +46,7 @@ export function ProductsClient({ initialProducts }: Props) {
   const [statusFilter, setStatusFilter] = useState<FilterStatus>('all')
   const [categoryFilter, setCategoryFilter] = useState<FilterCategory>('all')
   const [modalOpen, setModalOpen] = useState(false)
+  const [viewProduct, setViewProduct] = useState<Product | null>(null)
   const [editProduct, setEditProduct] = useState<Product | null>(null)
   const [deleteProduct, setDeleteProduct] = useState<Product | null>(null)
 
@@ -161,6 +163,7 @@ export function ProductsClient({ initialProducts }: Props) {
         <div className="bg-white rounded-xl border border-stone-200 shadow-sm overflow-hidden">
           <ProductTable
             products={filtered}
+            onView={(p) => setViewProduct(p)}
             onEdit={(p) => setEditProduct(p)}
             onDelete={(p) => setDeleteProduct(p)}
           />
@@ -192,6 +195,9 @@ export function ProductsClient({ initialProducts }: Props) {
           </div>
         </div>
       </Modal>
+
+      {/* Product Detail Panel */}
+      <ProductDetail product={viewProduct} onClose={() => setViewProduct(null)} />
     </div>
   )
 }

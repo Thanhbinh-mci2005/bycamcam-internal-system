@@ -39,6 +39,28 @@ export interface Product {
   updated_at: string
   // joined
   inventory?: Inventory
+  // extended fields from product CSV
+  shopee_id?: string
+  tiktok_id?: string
+  warehouse_name?: string
+  delivery_info?: string
+  product_type?: string
+  product_line?: string
+  material?: string
+  sku_variants?: string
+  image_embed?: string
+  team?: string
+  owner?: string
+  production_owner?: string
+  designer?: string
+  highlights?: string
+  order_cycle_days?: number
+  production_days?: number
+  lookbook_ref?: string
+  image_2d_ref?: string
+  shopee_url?: string
+  tiktok_url?: string
+  colors?: string
 }
 
 export interface Inventory {

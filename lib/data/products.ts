@@ -36,6 +36,7 @@ import {
   deriveCategory,
   mapStatus,
   parsePriceVnd,
+  parseInteger,
 } from '@/lib/csv-parser'
 
 const CSV_PATH = join(
@@ -51,15 +52,25 @@ const COL = {
   NAME: 2,
   PRICE_SHOPEE: 3,
   WAREHOUSE_NAME: 4,
+  DELIVERY_INFO: 5,
   PRODUCT_TYPE: 6,
   PRODUCT_LINE: 7,
   MATERIAL: 8,
   SKU: 9,
   SKU_VARIANTS: 10,
   IMAGE_URL: 11,
+  IMAGE_EMBED: 12,
   STATUS: 13,
   TEAM: 14,
+  OWNER: 15,
+  PRODUCTION_OWNER: 16,
+  DESIGNER: 17,
   COLORS: 18,
+  HIGHLIGHTS: 23,
+  ORDER_CYCLE_DAYS: 26,
+  PRODUCTION_DAYS: 27,
+  LOOKBOOK_REF: 29,
+  IMAGE_2D_REF: 30,
   SHOPEE_URL: 41,
   TIKTOK_URL: 42,
   COLLECTION: 47,
@@ -121,13 +132,6 @@ export function loadProducts(): Product[] {
     const collection = (row[COL.COLLECTION] ?? '').trim() || 'General'
     const team = (row[COL.TEAM] ?? '').trim()
     const imageUrl = (row[COL.IMAGE_URL] ?? '').trim()
-    const shopeeUrl = (row[COL.SHOPEE_URL] ?? '').trim()
-
-    // Build notes from available descriptive fields
-    const notesParts: string[] = []
-    if (material) notesParts.push(`Material: ${material}`)
-    if (colors) notesParts.push(`Colors: ${colors}`)
-    if (team) notesParts.push(`Team: ${team}`)
 
     const product: Product = {
       id: deriveId(row),
@@ -136,14 +140,35 @@ export function loadProducts(): Product[] {
       category: deriveCategory(productLine, name),
       collection,
       status,
-      cost: 0,           // Not available in product CSV
+      cost: 0,
       price,
-      margin: undefined, // Cannot compute without cost
-      notes: notesParts.join(' | ') || undefined,
+      margin: undefined,
       image_url: imageUrl || undefined,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
       // inventory is populated by the caller after joining with metrics
+      // extended product profile fields
+      shopee_id: (row[COL.SHOPEE_ID] ?? '').trim() || undefined,
+      tiktok_id: (row[COL.TIKTOK_ID] ?? '').trim() || undefined,
+      warehouse_name: (row[COL.WAREHOUSE_NAME] ?? '').trim() || undefined,
+      delivery_info: (row[COL.DELIVERY_INFO] ?? '').trim() || undefined,
+      product_type: (row[COL.PRODUCT_TYPE] ?? '').trim() || undefined,
+      product_line: productLine || undefined,
+      material: material || undefined,
+      sku_variants: (row[COL.SKU_VARIANTS] ?? '').replace(/\n/g, ', ').trim() || undefined,
+      image_embed: (row[COL.IMAGE_EMBED] ?? '').trim() || undefined,
+      team: team || undefined,
+      owner: (row[COL.OWNER] ?? '').trim() || undefined,
+      production_owner: (row[COL.PRODUCTION_OWNER] ?? '').trim() || undefined,
+      designer: (row[COL.DESIGNER] ?? '').trim() || undefined,
+      highlights: (row[COL.HIGHLIGHTS] ?? '').trim() || undefined,
+      order_cycle_days: parseInteger(row[COL.ORDER_CYCLE_DAYS] ?? '') || undefined,
+      production_days: parseInteger(row[COL.PRODUCTION_DAYS] ?? '') || undefined,
+      lookbook_ref: (row[COL.LOOKBOOK_REF] ?? '').trim() || undefined,
+      image_2d_ref: (row[COL.IMAGE_2D_REF] ?? '').trim() || undefined,
+      shopee_url: (row[COL.SHOPEE_URL] ?? '').trim() || undefined,
+      tiktok_url: (row[COL.TIKTOK_URL] ?? '').trim() || undefined,
+      colors: colors || undefined,
     }
 
     products.push(product)

@@ -4,15 +4,16 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { formatCurrency, formatPercent, formatStatusLabel, getStatusColor } from '@/lib/utils'
 import type { Product } from '@/types'
-import { AlertTriangle, Edit2, Trash2 } from 'lucide-react'
+import { AlertTriangle, Edit2, Eye, Trash2 } from 'lucide-react'
 
 interface ProductTableProps {
   products: Product[]
+  onView: (product: Product) => void
   onEdit: (product: Product) => void
   onDelete: (product: Product) => void
 }
 
-export function ProductTable({ products, onEdit, onDelete }: ProductTableProps) {
+export function ProductTable({ products, onView, onEdit, onDelete }: ProductTableProps) {
   if (products.length === 0) {
     return (
       <div className="flex items-center justify-center py-20 text-stone-400 text-sm">
@@ -45,7 +46,7 @@ export function ProductTable({ products, onEdit, onDelete }: ProductTableProps) 
             const isLowStock = qty <= threshold
 
             return (
-              <tr key={product.id} className="hover:bg-stone-50 transition-colors group">
+              <tr key={product.id} className="hover:bg-stone-50 transition-colors group cursor-pointer" onClick={() => onView(product)}>
                 <td className="py-3 px-4">
                   <span className="font-mono text-xs font-medium text-stone-600 bg-stone-100 px-2 py-0.5 rounded">
                     {product.sku}
@@ -85,8 +86,11 @@ export function ProductTable({ products, onEdit, onDelete }: ProductTableProps) 
                     </span>
                   </div>
                 </td>
-                <td className="py-3 px-4">
+                <td className="py-3 px-4" onClick={e => e.stopPropagation()}>
                   <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity justify-end">
+                    <Button size="icon" variant="ghost" onClick={() => onView(product)} className="h-7 w-7 text-stone-400 hover:text-amber-600">
+                      <Eye size={13} />
+                    </Button>
                     <Button size="icon" variant="ghost" onClick={() => onEdit(product)} className="h-7 w-7">
                       <Edit2 size={13} />
                     </Button>
