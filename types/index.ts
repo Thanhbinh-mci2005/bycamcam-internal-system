@@ -97,6 +97,41 @@ export interface Task {
   product?: Pick<Product, 'sku' | 'name'>
 }
 
+export interface ProductMetrics {
+  sku: string
+  shopee_id: string
+  tiktok_id: string
+  name: string
+  team: string
+  status: ProductStatus
+  stock: number
+  price_shopee: number
+  price_tiktok: number
+  total_sold_7d: number
+  sold_shopee_30d: number
+  sold_shopee_7d: number
+  sold_tiktok_30d: number
+  sold_tiktok_7d: number
+  shopee_traffic_7d: number
+  shopee_ctr: number
+  shopee_cr: number
+  tiktok_shop_tab_views: number
+  tiktok_shop_tab_ctr: number
+  tiktok_shop_tab_cr: number
+  tiktok_video_views: number
+  tiktok_video_ctr: number
+  gmv_shopee: number
+  gmv_tiktok: number
+  gmv_total: number
+  ads_shopee: number
+  ads_tiktok: number
+  booking_cost: number
+  roi_total: number
+  roas: number
+  growth_shopee: number
+  growth_tiktok: number
+}
+
 export interface DashboardMetrics {
   totalActiveSKUs: number
   totalProducts: number
