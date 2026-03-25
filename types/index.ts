@@ -134,14 +134,27 @@ export interface ProductMetrics {
   sold_shopee_7d: number
   sold_tiktok_30d: number
   sold_tiktok_7d: number
+  // Shopee traffic metrics
   shopee_traffic_7d: number
   shopee_ctr: number
   shopee_cr: number
+  // TikTok: Shop Tab
   tiktok_shop_tab_views: number
   tiktok_shop_tab_ctr: number
   tiktok_shop_tab_cr: number
+  // TikTok: Live
+  live_views: number
+  live_ctr: number
+  live_cr: number
+  // TikTok: Video
   tiktok_video_views: number
   tiktok_video_ctr: number
+  tiktok_video_cr: number
+  // TikTok: Product Card (Thẻ sản phẩm)
+  product_card_views: number
+  product_card_ctr: number
+  product_card_cr: number
+  // Financials
   gmv_shopee: number
   gmv_tiktok: number
   gmv_total: number
@@ -150,6 +163,7 @@ export interface ProductMetrics {
   booking_cost: number
   roi_total: number
   roas: number
+  // Growth
   growth_shopee: number
   growth_tiktok: number
 }
